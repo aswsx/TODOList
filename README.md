@@ -6,6 +6,21 @@
 ![GitHub language count](https://img.shields.io/github/languages/count/aswsx/job4j_todolist)
 ![Lines of code](https://img.shields.io/tokei/lines/github/aswsx/job4j_todolist)
 
+![Java](https://img.shields.io/badge/-Java-003f5c?style=for-the-badge&logo=Java)
+![Spring](https://img.shields.io/badge/-Spring-003f5c?style=for-the-badge&logo=Spring)
+![SpringBoot](https://img.shields.io/badge/-SpringBoot-003f5c?style=for-the-badge&logo=SpringBoot)
+![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-003f5c?style=for-the-badge&logo=POstgreSQL)
+![GitHub](https://img.shields.io/badge/-Github-003f5c?style=for-the-badge&logo=Github)
+![CircleCI](https://img.shields.io/badge/-CircleCI-003f5c?style=for-the-badge&logo=CircleCI)
+![Codecov](https://img.shields.io/badge/-Codecov-003f5c?style=for-the-badge&logo=Codecov)
+![HTML](https://img.shields.io/badge/-HTML-003f5c?style=for-the-badge&logo=HTML)
+![JDBC](https://img.shields.io/badge/-JDBC-003f5c?style=for-the-badge&logo=JDBC)
+![Bootstrap](https://img.shields.io/badge/-Bootstrap-003f5c?style=for-the-badge&logo=Bootstrap)
+![ThymeLeaf](https://img.shields.io/badge/-ThymeLeaf-003f5c?style=for-the-badge&logo=ThymeLeaf)
+![Lombok](https://img.shields.io/badge/-Lombok-003f5c?style=for-the-badge&logo=Lombok)
+![JSOUP](https://img.shields.io/badge/-JSOUP-003f5c?style=for-the-badge&logo=JSOUP)
+![Hibernate](https://img.shields.io/badge/-Hibernate-003f5c?style=for-the-badge&logo=Hibernate)
+
 Проект веб-приложения TODO LIST
 
 
