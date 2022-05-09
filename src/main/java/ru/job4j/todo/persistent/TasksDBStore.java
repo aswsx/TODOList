@@ -1,13 +1,12 @@
 package ru.job4j.todo.persistent;
 
+import net.jcip.annotations.ThreadSafe;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-
 import org.springframework.stereotype.Repository;
 import ru.job4j.todo.models.Task;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
  * @author Alex Gutorov
@@ -15,7 +14,8 @@ import java.util.List;
  * @created 06/04/2022 - 15:36
  */
 @Repository
-public class TasksDBStore {
+@ThreadSafe
+public class TasksDBStore implements DBStore {
     private final SessionFactory sf;
 
     public TasksDBStore(SessionFactory sf) {
@@ -23,29 +23,26 @@ public class TasksDBStore {
     }
 
     public void addTask(Task task) {
-        Session session = sf.openSession();
-        session.beginTransaction();
-        session.save(task);
-        session.getTransaction().commit();
-        session.close();
+        tx(session -> {
+            session.save(task);
+            return new Object();
+        }, sf);
     }
 
     public void updateTask(Task task) {
-        Session session = sf.openSession();
-        session.beginTransaction();
-        session.update(task);
-        session.getTransaction().commit();
-        session.close();
+        tx(session -> {
+            session.update(task);
+            return new Object();
+        }, sf);
     }
 
     public void deleteTask(int id) {
-        Session session = sf.openSession();
-        session.beginTransaction();
         Task task = new Task();
         task.setId(id);
-        session.delete(task);
-        session.getTransaction().commit();
-        session.close();
+        tx(session -> {
+            session.delete(task);
+            return new Object();
+        }, sf);
     }
 
     public void doneTask(int id) {
@@ -58,31 +55,17 @@ public class TasksDBStore {
     }
 
     public Collection<Task> findAll() {
-        Session session = sf.openSession();
-        session.beginTransaction();
-        List result = session.createQuery("from ru.job4j.todo.models.Task").list();
-        session.getTransaction().commit();
-        session.close();
-        return result;
+        return tx(session -> session.createQuery(
+                "from ru.job4j.todo.models.Task").list(), sf);
     }
 
     public Task findById(int id) {
-        Session session = sf.openSession();
-        session.beginTransaction();
-        Task result = session.get(Task.class, id);
-        session.getTransaction().commit();
-        session.close();
-        return result;
+        return tx(session -> session.get(Task.class, id), sf);
     }
 
     public Collection<Task> findByCondition(boolean condition) {
-        Session session = sf.openSession();
-        session.beginTransaction();
-        List result = session.createQuery(
-                "from ru.job4j.todo.models.Task where done = :condition")
-                .setParameter("condition", condition).list();
-        session.getTransaction().commit();
-        session.close();
-        return result;
+        return tx(session -> session
+                .createQuery("from ru.job4j.todo.models.Task where done = :condition")
+                .setParameter("condition", condition).list(), sf);
     }
 }

@@ -1,6 +1,5 @@
 package ru.job4j.todo.persistent;
 
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.todo.models.User;
@@ -13,7 +12,7 @@ import java.util.Optional;
  * @created 07/05/2022 - 15:52
  */
 @Repository
-public class UsersDBStore {
+public class UsersDBStore implements DBStore {
     private final SessionFactory sf;
 
     public UsersDBStore(SessionFactory sf) {
@@ -21,23 +20,18 @@ public class UsersDBStore {
     }
 
     public Optional<User> addUser(User user) {
-        Session session = sf.openSession();
-        session.beginTransaction();
-        session.save(user);
-        session.getTransaction().commit();
-        session.close();
+        try {
+            tx(session -> session.save(user), sf);
+        } catch (Exception ex) {
+            return Optional.empty();
+        }
         return Optional.ofNullable(user);
     }
 
     public Optional<User> findUser(String email, String password) {
-        Session session = sf.openSession();
-        session.beginTransaction();
-        Optional<User> ou = session.createQuery(
+        return tx(session -> session.createQuery(
                 "from ru.job4j.todo.models.User where email = :email and password = :password")
                 .setParameter("email", email)
-                .setParameter("password", password).uniqueResultOptional();
-        session.getTransaction().commit();
-        session.close();
-        return ou;
+                .setParameter("password", password).uniqueResultOptional(), sf);
     }
 }
