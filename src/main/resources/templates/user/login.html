@@ -33,6 +33,7 @@
                 <a class="nav-item nav-link active" th:href="@{/formAddTask}">Add new task</a>
                 <a class="nav-item nav-link" th:href="@{/showActive}">Active</a>
                 <a class="nav-item nav-link" th:href="@{/showDone}">Done</a>
+                <a class="nav-item nav-link" th:href="@{/formAddUser}">Sign up</a>
                 <a class="nav-item nav-link" th:if="${user.email == 'Guest'}" th:href="@{/loginPage}">
                     <span th:text="${user.email}"></span>
                     <span> | Login</span>
