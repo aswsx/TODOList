@@ -29,11 +29,7 @@ public class TasksController {
 
     @GetMapping("/allTasks")
     public String tasks(Model model, HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            user = new User();
-            user.setEmail(GUEST);
-        }
+        User user = getUser(session);
         model.addAttribute("user", user);
         model.addAttribute(TASKS, tasksService.findAll());
         return "redirect:/index";
@@ -41,11 +37,7 @@ public class TasksController {
 
     @GetMapping("/showActive")
     public String showActive(Model model, HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            user = new User();
-            user.setEmail(GUEST);
-        }
+        User user = getUser(session);
         model.addAttribute("user", user);
         model.addAttribute(TASKS, tasksService.findActiveTasks());
         return "/task/showActive";
@@ -53,11 +45,7 @@ public class TasksController {
 
     @GetMapping("/showDone")
     public String showDone(Model model, HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            user = new User();
-            user.setEmail(GUEST);
-        }
+        User user = getUser(session);
         model.addAttribute("user", user);
         model.addAttribute(TASKS, tasksService.findDoneTasks());
         return "/task/showDone";
@@ -65,11 +53,7 @@ public class TasksController {
 
     @GetMapping("/formAddTask")
     public String formAddTask(Model model, HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            user = new User();
-            user.setEmail(GUEST);
-        }
+        User user = getUser(session);
         model.addAttribute("user", user);
         return "task/addTask";
     }
@@ -84,11 +68,7 @@ public class TasksController {
 
     @GetMapping("/description/{taskId}")
     public String taskDescription(Model model, @PathVariable("taskId") int id, HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            user = new User();
-            user.setEmail(GUEST);
-        }
+        User user = getUser(session);
         model.addAttribute("user", user);
         model.addAttribute("task", tasksService.findById(id));
         return "task/description";
@@ -96,11 +76,7 @@ public class TasksController {
 
     @GetMapping("/formEditTask/{taskId}")
     public String formEditTask(Model model, @PathVariable("taskId") int id, HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            user = new User();
-            user.setEmail(GUEST);
-        }
+        User user = getUser(session);
         model.addAttribute("user", user);
         model.addAttribute("task", tasksService.findById(id));
         return "task/editTask";
@@ -126,5 +102,14 @@ public class TasksController {
     public String deleteTask(@PathVariable("taskId") int id) {
         tasksService.deleteTask(id);
         return START_PAGE;
+    }
+
+    private User getUser(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            user = new User();
+            user.setEmail(GUEST);
+        }
+        return user;
     }
 }

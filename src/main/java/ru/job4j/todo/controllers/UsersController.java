@@ -32,11 +32,7 @@ public class UsersController {
     @GetMapping("/formAddUser")
     public String formAddUser(Model model, @RequestParam(name = "fail", required = false) Boolean fail,
                               HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            user = new User();
-            user.setEmail(GUEST);
-        }
+        User user = getUser(session);
         model.addAttribute("user", user);
         model.addAttribute("fail", fail != null);
         return "user/addUser";
@@ -55,11 +51,7 @@ public class UsersController {
     @GetMapping("/loginPage")
     public String loginPage(Model model, @RequestParam(name = "fail", required = false) Boolean fail,
                             HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            user = new User();
-            user.setEmail(GUEST);
-        }
+        User user = getUser(session);
         model.addAttribute("user", user);
         model.addAttribute("fail", fail != null);
         return "user/login";
@@ -82,5 +74,14 @@ public class UsersController {
     public String logout(HttpSession session) {
         session.invalidate();
         return "redirect:/index";
+    }
+
+    private User getUser(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            user = new User();
+            user.setEmail(GUEST);
+        }
+        return user;
     }
 }

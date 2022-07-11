@@ -48,8 +48,8 @@ public class TasksDBStore implements DBStore {
     public void doneTask(int id) {
         Session session = sf.openSession();
         session.beginTransaction();
-        session.createQuery("update ru.job4j.todo.models.Task t set t.done = true where t.id = :id")
-                .setParameter("id", id).executeUpdate();
+        Task task = session.get(Task.class, id);
+        task.setDone(true);
         session.getTransaction().commit();
         session.close();
     }
