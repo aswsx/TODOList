@@ -25,7 +25,7 @@
 <body>
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="/allTasks">All tasks</a>
+        <a class="navbar-brand" href="/index">Main</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -35,6 +35,7 @@
                 <a class="nav-item nav-link active" th:href="@{/formAddTask}">Add new task</a>
                 <a class="nav-item nav-link" th:href="@{/showActive}">Active</a>
                 <a class="nav-item nav-link" th:href="@{/showDone}">Done</a>
+                <a class="nav-item nav-link" th:if="${user.email == 'Guest'}" th:href="@{/formAddUser}">Sign Up</a>
                 <a class="nav-item nav-link" th:if="${user.email == 'Guest'}" th:href="@{/loginPage}">
                     <span th:text="${user.email}"></span>
                     <span> | Login</span>
@@ -53,6 +54,7 @@
                 <th scope="col">#</th>
                 <th scope="col">Task</th>
                 <th scope="col">Created</th>
+                <th scope="col">Category</th>
                 <th scope="col">Done</th>
             </tr>
             </thead>
@@ -63,13 +65,24 @@
                 </td>
                 <td>
                     <span th:text="${task.name}"></span>
+                    <a th:href="@{|/formEditTask/${task.id}|}">
+                        <i class="fa fa-edit"></i>
+                    </a>
                 </td>
                 <td>
                 <span th:text="${task.created}">
                 </span>
                 </td>
                 <td>
-                    <span th:text="${task.done}"></span>
+                    <span th:each="category : ${task.categories}" th:text="${category.name} + ' '"></span>
+                </td>
+                <td>
+                    <span th:if="${!task.done}">
+                                <span class="badge badge-pill badge-success">Active</span>
+                            </span>
+                    <span th:if="${task.done}">
+                                <span class="badge badge-pill badge-danger">Done</span>
+                            </span>
                 </td>
             </tr>
             </tbody>

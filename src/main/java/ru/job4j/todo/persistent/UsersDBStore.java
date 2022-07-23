@@ -30,7 +30,7 @@ public class UsersDBStore implements DBStore {
 
     public Optional<User> findUser(String email, String password) {
         return tx(session -> session.createQuery(
-                "from ru.job4j.todo.models.User where email = :email and password = :password")
+                "from User where email = :email and password = :password")
                 .setParameter("email", email)
                 .setParameter("password", password).uniqueResultOptional(), sf);
     }

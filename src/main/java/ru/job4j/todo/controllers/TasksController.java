@@ -5,10 +5,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.todo.models.Task;
 import ru.job4j.todo.models.User;
+import ru.job4j.todo.services.CategoriesService;
 import ru.job4j.todo.services.TasksService;
 
 import javax.servlet.http.HttpSession;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Alex Gutorov
@@ -22,9 +24,11 @@ public class TasksController {
     private static final String TASKS = "tasks";
     private static final String GUEST = "Гость";
     private final TasksService tasksService;
+    private final CategoriesService categoriesService;
 
-    public TasksController(TasksService tasksService) {
+    public TasksController(TasksService tasksService, CategoriesService categoriesService) {
         this.tasksService = tasksService;
+        this.categoriesService = categoriesService;
     }
 
     @GetMapping("/allTasks")
@@ -32,7 +36,7 @@ public class TasksController {
         User user = getUser(session);
         model.addAttribute("user", user);
         model.addAttribute(TASKS, tasksService.findAll());
-        return "redirect:/index";
+        return "task/allTasks";
     }
 
     @GetMapping("/showActive")
@@ -55,13 +59,16 @@ public class TasksController {
     public String formAddTask(Model model, HttpSession session) {
         User user = getUser(session);
         model.addAttribute("user", user);
+        model.addAttribute("categories", categoriesService.findAll());
         return "task/addTask";
     }
 
     @PostMapping("/addTask")
-    public String addTask(@ModelAttribute Task task, HttpSession session) {
+    public String addTask(@ModelAttribute Task task, HttpSession session,
+                          @RequestParam(value = "categoriesId", required = false) List<Integer> categoriesId) {
         task.setCreated(new Date(System.currentTimeMillis()));
         task.setUser((User) session.getAttribute("user"));
+        categoriesId.forEach(id -> task.addCategory(categoriesService.findById(id)));
         tasksService.addTask(task);
         return START_PAGE;
     }
@@ -79,15 +86,18 @@ public class TasksController {
         User user = getUser(session);
         model.addAttribute("user", user);
         model.addAttribute("task", tasksService.findById(id));
+        model.addAttribute("categories", categoriesService.findAll());
         return "task/editTask";
     }
 
     @PatchMapping("/editTask")
-    public String updateTask(@ModelAttribute Task task) {
+    public String updateTask(@ModelAttribute Task task, @RequestParam(value = "categoriesId", required = false)
+            List<Integer> categoriesId) {
         Task updTask = tasksService.findById(task.getId());
         task.setCreated(updTask.getCreated());
         task.setName(updTask.getName());
         task.setUser(updTask.getUser());
+        categoriesId.forEach(id -> task.addCategory(categoriesService.findById(id)));
         tasksService.updateTask(task);
         return DESCRIPTION + task.getId();
     }

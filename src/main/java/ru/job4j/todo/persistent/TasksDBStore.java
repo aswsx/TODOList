@@ -56,16 +56,20 @@ public class TasksDBStore implements DBStore {
 
     public Collection<Task> findAll() {
         return tx(session -> session.createQuery(
-                "from ru.job4j.todo.models.Task").list(), sf);
+                "from Task as t join fetch t.categories").list(), sf);
     }
 
     public Task findById(int id) {
-        return tx(session -> session.get(Task.class, id), sf);
+        return tx(session -> (Task) session
+                .createQuery("from Task as t join fetch t.categories where t.id = :fId")
+                .setParameter("fId", id)
+                .uniqueResult(), sf
+        );
     }
 
     public Collection<Task> findByCondition(boolean condition) {
         return tx(session -> session
-                .createQuery("from ru.job4j.todo.models.Task where done = :condition")
+                .createQuery("from Task where done = :condition")
                 .setParameter("condition", condition).list(), sf);
     }
 }

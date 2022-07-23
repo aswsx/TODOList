@@ -1,5 +1,6 @@
 package ru.job4j.todo.services;
 
+import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Service;
 import ru.job4j.todo.models.User;
 import ru.job4j.todo.persistent.UsersDBStore;
@@ -11,6 +12,7 @@ import java.util.Optional;
  * @version 1.0
  * @created 07/05/2022 - 11:52
  */
+@ThreadSafe
 @Service
 public class UsersService {
     private final UsersDBStore store;

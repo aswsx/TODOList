@@ -57,6 +57,12 @@
                             <input type="text" class="form-control" name="name" id="name">
                             <label for="description">Description</label>
                             <textArea class="form-control" id="description" name="description"></textArea>
+                            <label for="category.id">Category</label>
+                            <select class="form-control" id="category.id" name="categoriesId">
+                                <option th:each="category : ${categories}"
+                                        th:value="${category.id}"
+                                        th:text="${category.name}"></option>
+                            </select>
                         </div>
                         <button type="submit" class="btn btn-primary mt-3">Save</button>
                     </form>

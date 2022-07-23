@@ -1,5 +1,6 @@
 package ru.job4j.todo.services;
 
+import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Service;
 import ru.job4j.todo.models.Task;
 import ru.job4j.todo.persistent.TasksDBStore;
@@ -11,6 +12,7 @@ import java.util.Collection;
  * @version 1.0
  * @created 06/04/2022 - 15:37
  */
+@ThreadSafe
 @Service
 public class TasksService {
     private final TasksDBStore store;
