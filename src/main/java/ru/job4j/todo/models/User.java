@@ -1,9 +1,6 @@
 package ru.job4j.todo.models;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,6 +13,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode
 @Entity
 @Table(name = "users")
@@ -25,8 +23,5 @@ public class User implements Serializable {
     private int id;
     private String email;
     private String password;
-
-    public User() {
-    }
 }
 

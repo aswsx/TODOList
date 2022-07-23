@@ -1,9 +1,6 @@
 package ru.job4j.todo.models;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -19,6 +16,7 @@ import java.util.Set;
 @Setter
 @EqualsAndHashCode
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "tasks")
 public class Task {
@@ -40,8 +38,6 @@ public class Task {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Task() {
-    }
     public void addCategory(Category category) {
         this.getCategories().add(category);
     }
