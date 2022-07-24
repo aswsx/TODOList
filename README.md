@@ -33,4 +33,6 @@
   <img src="Pictures/DoneTaskDescriptionPage.jpg" height="150" title="Поиск по имени элемента">
   <img src="Pictures/UserSignUpPage.jpg" height="150" title="Страница регистрации пользователя">
   <img src="Pictures/UserLoginPage.jpg" height="150" title="Страница авторизации пользователя">
+  <img src="Pictures/ChooseCategory.PNG" height="150" title="Выбор категории при создании новой задачи">
+  <img src="Pictures/TasksWithCategories.PNG" height="150" title="Задания с категориями">
   </p>
